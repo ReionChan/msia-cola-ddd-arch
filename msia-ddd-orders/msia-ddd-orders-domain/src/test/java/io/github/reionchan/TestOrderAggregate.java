@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class TestOrderAggregate {
     private static OrderStateMachine orderStateMachine;
-    private StateMachine<OrderStatus, OrderEventType, OrderEventContext> machine;
+    private static StateMachine<OrderStatus, OrderEventType, OrderEventContext> machine;
     @Mock
     private IOrderAggregateGateway orderAggregateGateway;
     @Spy
@@ -38,12 +38,16 @@ public class TestOrderAggregate {
 
     @BeforeAll
     static void setUpAll() {
-        orderStateMachine = new OrderStateMachine();
+        try{
+            StateMachineFactory.get(ORDER_STATE_MACHINE_ID);
+        } catch (Exception e) {
+            orderStateMachine = new OrderStateMachine();
+        }
+        machine = StateMachineFactory.get(ORDER_STATE_MACHINE_ID);
     }
 
     @BeforeEach
     void setUp() {
-        machine = StateMachineFactory.get(ORDER_STATE_MACHINE_ID);
         orderAggregate.setOrderStateMachine(machine);
         orderAggregate.setOrderAggregateGateway(orderAggregateGateway);
     }
