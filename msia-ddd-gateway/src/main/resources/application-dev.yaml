@@ -1,0 +1,82 @@
+server:
+  # 设置服务器端口
+  port: ${PORT:9000}
+  # 启用 http2
+  http2:
+    enabled: true
+
+spring:
+  application:
+    name: msia-gateway
+
+  # 开发环境配置
+  config:
+    activate:
+      # 仅在 dev 环境激活本配置
+      on-profile: dev
+    # 同时利用 import 机制引入 dev 环境通用配置文件 commons-dev.yaml
+    import:
+      - classpath:commons-dev.yaml
+
+  cloud:
+    # === 网关配置 ===
+    gateway:
+      # 跨域配置
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            # 允许跨域访问
+            allowedOrigins: "*"
+            # 允许跨域访问的请求方法
+            allowedMethods: "GET,POST,PUT,PATCH,DELETE,OPTIONS,HEAD"
+            # 允许跨域访问的请求头
+            allowedHeaders: "*"
+            # 允许跨域访问的响应头
+            exposedHeaders: "*"
+            # 允许跨域访问的请求凭证
+            # 发生跨域时是否允许浏览器携带用户状态信息，例如：cookies、http认证信息等
+            allowCredentials: false
+            maxAge: 1800
+      # 网关服务发现
+      discovery:
+        locator:
+          # 开启网关与服务发现集成
+          enabled: true
+      # 路由规则
+      routes:
+        # 将以 /v3/api-docs/serviceId 路径，路由到 /serviceId/v3/api-docs
+        - id: springdoc-route
+          uri: http://localhost:${server.port}
+          predicates:
+            - Path=/v3/api-docs/**
+          filters:
+            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
+
+# === SpringDoc ===
+springdoc:
+  # api 文档设置
+  api-docs:
+    # 文档路径，默认 /v3/api-docs
+    path: /v3/api-docs
+  # swagger 文档设置
+  swagger-ui:
+    # 文档路径，默认 /swagger-ui.html
+    path: /swagger-ui.html
+    # 设置不同服务的文档显示名称及链接地址
+    urls:
+      # users 服务文档地址
+      - name: msia-users
+        url: /v3/api-docs/msia-users
+      # products 服务文档地址
+      - name: msia-products
+        url: /v3/api-docs/msia-products
+      # orders 服务文档地址
+      - name: msia-orders
+        url: /v3/api-docs/msia-orders
+      # payment 服务文档地址
+      - name: msia-payment
+        url: /v3/api-docs/msia-payment
+    # 设置接口方法按字母排序
+    operations-sorter: alpha
+    # 设置接口标签按字母排序
+    tags-sorter: alpha

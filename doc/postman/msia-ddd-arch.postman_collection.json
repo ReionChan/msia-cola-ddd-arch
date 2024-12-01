@@ -1,0 +1,242 @@
+{
+	"info": {
+		"_postman_id": "073bebfc-0e33-4e3e-b01d-3151f60b121e",
+		"name": "msia-ddd-arch",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6234103"
+	},
+	"item": [
+		{
+			"name": "普通用户登录",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"var token = jsonData.data.accessToken;",
+							"var refreshToken = jsonData.data.refreshToken;",
+							"pm.environment.set(\"accessToken_user\", token);",
+							"pm.environment.set(\"refreshToken_user\", refreshToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"userName\": \"msia_user\",\n  \"password\": \"msia.user\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/msia-users/user/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"msia-users",
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "用户购买商品",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"if (jsonData.success == true) {",
+							"    var orderId = jsonData.data;",
+							"    pm.environment.set(\"orderId\", orderId);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken_user}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"userId\": 2,\n  \"orderDetails\": [\n    {\n      \"productId\": 1,\n      \"amount\": 1\n    },\n    {\n      \"productId\": 2,\n      \"amount\": 1\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/msia-orders/order",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"msia-orders",
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "修改订单",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"修改订单情况\", new function(){",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken_user}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": {{orderId}},\n    \"orderDetails\": [\n        {\n            \"productId\": 2,\n            \"amount\": 0\n        },\n        {\n            \"productId\": 1,\n            \"amount\": 2\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/msia-orders/order/product",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"msia-orders",
+						"order",
+						"product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "支付订单",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"支付情况\", new function(){",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"if (jsonData.success == true) {",
+							"    var orderId = pm.environment.get(\"orderId\");",
+							"    pm.environment.set(\"orderId\", Number(orderId));",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken_user}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/msia-orders/order/{{orderId}}/pay",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"msia-orders",
+						"order",
+						"{{orderId}}",
+						"pay"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "查看订单详情",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"订单详情\", new function(){",
+							"    pm.response.to.have.status(200);",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.orderDetails[0].productName).to.eq(\"冬奥会吉祥物手办（冰墩墩）\", \"商品不对\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken_user}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/msia-orders/order/{{orderId}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"msia-orders",
+						"order",
+						"{{orderId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

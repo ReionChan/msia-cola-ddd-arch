@@ -1,0 +1,21 @@
+spring:
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      config:
+        file-extension: yaml
+
+#    openfeign:
+#      client:
+#        config:
+#          default:
+#            readTimeout: 60000
+#            retryer: feign.Retryer.Default
+
+  config:
+    # 当且仅当 prod 环境下，才从 Nacos 中加载配置
+    activate:
+      on-profile: prod
+    import:
+      - nacos:msia?refresh=true&group=DEFAULT_GROUP
+      - nacos:msia-orders?refresh=true&group=DEFAULT_GROUP

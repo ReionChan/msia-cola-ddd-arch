@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.github.reionchan</groupId>
+        <artifactId>msia-parent</artifactId>
+        <version>${revision}</version>
+        <relativePath>../msia-components/msia-parent/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>msia-ddd-gateway</artifactId>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <!-- 项目公共包 -->
+        <dependency>
+            <groupId>io.github.reionchan</groupId>
+            <artifactId>msia-ddd-commons</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.reionchan</groupId>
+            <artifactId>msia-config-nacos-spring-cloud-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.reionchan</groupId>
+            <artifactId>msia-discovery-nacos-spring-cloud-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.reionchan</groupId>
+            <artifactId>msia-rpc-openfeign-spring-cloud-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cola</groupId>
+            <artifactId>cola-component-domain-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cola</groupId>
+            <artifactId>cola-component-dto</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cola</groupId>
+            <artifactId>cola-component-exception</artifactId>
+        </dependency>
+        <!-- 引入 WebFlux UI -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+        </dependency>
+        <!-- 引入 Spring Cloud Gateway Starter -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <!-- 将 POM 中编译时变量赋值给资源文件 -->
+            <!-- https://maven.apache.org/guides/getting-started/index.html#How_do_I_filter_resource_files -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

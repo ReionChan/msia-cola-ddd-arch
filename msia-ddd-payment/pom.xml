@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.github.reionchan</groupId>
+        <artifactId>msia-parent</artifactId>
+        <version>${revision}</version>
+        <relativePath>../msia-components/msia-parent/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>msia-ddd-payment</artifactId>
+    <packaging>pom</packaging>
+    <description>
+        MSIA 支付业务
+    </description>
+
+    <modules>
+        <module>msia-ddd-payment-adapter</module>
+        <module>msia-ddd-payment-app</module>
+        <module>msia-ddd-payment-client</module>
+        <module>msia-ddd-payment-domain</module>
+        <module>msia-ddd-payment-infrastructure</module>
+        <module>msia-ddd-payment-bootstrap</module>
+    </modules>
+
+</project>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.github.reionchan</groupId>
+        <artifactId>msia-parent</artifactId>
+        <version>${revision}</version>
+        <relativePath>../msia-components/msia-parent/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>msia-ddd-products</artifactId>
+    <packaging>pom</packaging>
+    <description>
+        MSIA 商品业务
+    </description>
+
+    <modules>
+        <module>msia-ddd-products-client</module>
+        <module>msia-ddd-products-bootstrap</module>
+        <module>msia-ddd-products-adapter</module>
+        <module>msia-ddd-products-app</module>
+        <module>msia-ddd-products-domain</module>
+        <module>msia-ddd-products-infrastructure</module>
+    </modules>
+
+</project>

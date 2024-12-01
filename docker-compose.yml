@@ -1,0 +1,34 @@
+# 本文件在 docker-compose v2.26.1 上验证
+
+# 服务列表
+services:
+  # Nacos 服务
+  nacos:
+    image: nacos/nacos-server:v2.2.3
+    container_name: nacos
+    privileged: true
+    restart: always
+    environment:
+      MODE: standalone
+    ports:
+      - 8848:8848
+      - 9848:9848
+      - 9849:9849
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8848/nacos/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+
+  # RabbitMQ 服务
+  rabbitmq:
+    image: rabbitmq:3.13.4-management
+    container_name: rabbitmq
+    privileged: true
+    restart: always
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - 5672:5672
+      - 15672:15672
+

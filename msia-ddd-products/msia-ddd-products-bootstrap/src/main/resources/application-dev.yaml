@@ -1,0 +1,48 @@
+server:
+  # 设置服务器端口
+  port: ${PORT:9002}
+
+spring:
+  application:
+    name: msia-products
+
+  # 开发环境配置
+  config:
+    activate:
+      # 仅在 dev 环境激活本配置
+      on-profile: dev
+    # 同时利用 import 机制引入 dev 环境通用配置文件 commons-dev.yaml
+    import:
+      - classpath:commons-dev.yaml
+
+  rabbitmq:
+    virtual-host: "/"
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    # 确认消息已发送到交换机
+    publisher-confirm-type: correlated
+    # 确认消息已发送到队列
+    publisher-returns: true
+    cache:
+      channel:
+        size: 100
+    listener:
+      simple:
+        acknowledge-mode: manual
+        prefetch: 250
+        concurrency: 1
+        max-concurrency: 3
+
+  datasource:
+    # 数据库驱动
+    driver-class-name: com.mysql.jdbc.Driver
+    # 数据库连接地址
+    url: jdbc:mysql://${MYSQL_ADDR:localhost:3306}/msia-db-product?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+    # 数据库用户名
+    username: ${MYSQL_USER:root}
+    # 数据库密码
+    password: ${MYSQL_PASS:root}
+    # 数据库连接池
+    type: com.zaxxer.hikari.HikariDataSource

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.reionchan.orders.database.mapper.OrderMapper">
+
+    <select id="getOrderForUpdate" parameterType="java.lang.Long" resultType="io.github.reionchan.orders.database.dataobject.OrderDO">
+        SELECT id, user_id, total_amount, status, total_price FROM orders WHERE id = #{id} FOR UPDATE
+    </select>
+
+</mapper>

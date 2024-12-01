@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.reionchan.products.database.mapper.ProductMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="productWithStockResultMap" type="io.github.reionchan.products.dto.clientobject.ProductStockWebCO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="bar_code" property="barCode"/>
+        <result column="amount" property="amount"/>
+    </resultMap>
+
+
+    <select id="selectProductWithStock" resultMap="productWithStockResultMap">
+        SELECT
+            p.id,
+            p.`name`,
+            p.bar_code,
+            p.price,
+            s.amount
+        FROM
+            products p
+        LEFT JOIN stock s ON s.product_id = p.id
+    </select>
+
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.github.reionchan</groupId>
+        <artifactId>msia-parent</artifactId>
+        <version>${revision}</version>
+        <relativePath>../msia-components/msia-parent/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>msia-components</artifactId>
+    <packaging>pom</packaging>
+    <name>MSIA Components</name>
+    <description>
+        MSIA 依赖的支撑组件集合
+    </description>
+
+    <modules>
+        <module>msia-dependencies</module>
+        <module>msia-parent</module>
+        <module>msia-spring-boot-starters</module>
+        <module>msia-spring-cloud-starters</module>
+        <module>msia-springdoc-openapi-starter</module>
+    </modules>
+</project>

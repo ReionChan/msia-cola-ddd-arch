@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.github.reionchan</groupId>
+        <artifactId>msia-parent</artifactId>
+        <version>${revision}</version>
+        <relativePath>./msia-components/msia-parent/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>msia-cola-ddd-arch</artifactId>
+    <packaging>pom</packaging>
+    <name>=== MicroServiceInAction COLA-DDD Architecture ===</name>
+    <description>
+        MicroService In Action Using Clean Object-Oriented and Layered with Domain-Driven Design Architecture
+    </description>
+
+    <modules>
+        <module>msia-components</module>
+        <module>msia-ddd-gateway</module>
+        <module>msia-ddd-commons</module>
+        <module>msia-ddd-core</module>
+        <module>msia-ddd-users</module>
+        <module>msia-ddd-products</module>
+        <module>msia-ddd-payment</module>
+        <module>msia-ddd-orders</module>
+    </modules>
+
+</project>
