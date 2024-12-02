@@ -1,5 +1,7 @@
 # COLA & DDD 的微服务示例工程
 
+> 📚 项目关联的详解文章请参考：[《基于 DDD & COLA 的分布式微服务实践》](https://reionchan.github.io/2024/12/01/microservice-in-action-with-cola-ddd/)
+
 ## 业务简介
 
 &emsp;&emsp;模拟一个简单的电商下单流程，用户注册并登录系统后添加商品生成订单，在支付操作时尝试扣减库存，库存满足订单需求时通知支付模块生成支付流水单，并以定时任务形式模拟第三方支付扣款。
@@ -46,8 +48,4 @@
 
 * Postman
   * 在 Postman 中，使用 Import 导入 `doc/postman` 目录下的 API 集合，即可完成登录、下单、支付、查询订单基本流程测试
-
-### 
-
-## 
 
