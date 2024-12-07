@@ -2,10 +2,9 @@ package io.github.reionchan.orders.convertor;
 
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.cola.exception.BizException;
-import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.reionchan.mq.consts.MessageStatus;
-import io.github.reionchan.mq.model.entity.MQMessage;
+import io.github.reionchan.core.consts.MessageStatus;
+import io.github.reionchan.core.model.entity.MQMessage;
 import io.github.reionchan.products.dto.StockDTO;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;

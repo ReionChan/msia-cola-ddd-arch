@@ -1,6 +1,7 @@
-package io.github.reionchan.mq.repository;
+package io.github.reionchan.core.repository;
 
-import io.github.reionchan.mq.model.entity.MQMessage;
+
+import io.github.reionchan.core.model.entity.MQMessage;
 
 /**
  * @author Reion

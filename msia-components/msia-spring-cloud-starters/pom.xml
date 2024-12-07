@@ -22,5 +22,6 @@
         <module>msia-discovery-nacos-spring-cloud-starter</module>
         <module>msia-loadbalancer-spring-cloud-starter</module>
         <module>msia-rpc-openfeign-spring-cloud-starter</module>
+        <module>msia-stream-rabbitmq-spring-cloud-starter</module>
     </modules>
 </project>

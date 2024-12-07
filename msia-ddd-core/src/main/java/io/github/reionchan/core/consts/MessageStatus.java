@@ -1,4 +1,4 @@
-package io.github.reionchan.mq.consts;
+package io.github.reionchan.core.consts;
 
 /**
  * 消息状态枚举

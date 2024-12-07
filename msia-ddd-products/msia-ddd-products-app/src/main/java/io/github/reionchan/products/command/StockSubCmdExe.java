@@ -2,8 +2,8 @@ package io.github.reionchan.products.command;
 
 import com.alibaba.cola.exception.Assert;
 import com.alibaba.cola.exception.BizException;
+import io.github.reionchan.core.model.entity.MQMessage;
 import io.github.reionchan.core.mq.MQManager;
-import io.github.reionchan.mq.model.entity.MQMessage;
 import io.github.reionchan.products.assembler.StockAssembler;
 import io.github.reionchan.products.convertor.MessageConvertor;
 import io.github.reionchan.products.dto.StockDTO;

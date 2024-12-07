@@ -20,6 +20,8 @@
     <file url="file://$PROJECT_DIR$/msia-components/msia-spring-cloud-starters/msia-loadbalancer-spring-cloud-starter/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/msia-components/msia-spring-cloud-starters/msia-rpc-openfeign-spring-cloud-starter/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/msia-components/msia-spring-cloud-starters/msia-rpc-openfeign-spring-cloud-starter/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/msia-components/msia-spring-cloud-starters/msia-stream-rabbitmq-spring-cloud-starter/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/msia-components/msia-spring-cloud-starters/msia-stream-rabbitmq-spring-cloud-starter/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/msia-components/msia-spring-cloud-starters/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/msia-components/msia-spring-cloud-starters/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/msia-components/msia-springdoc-openapi-starter/src/main/java" charset="UTF-8" />

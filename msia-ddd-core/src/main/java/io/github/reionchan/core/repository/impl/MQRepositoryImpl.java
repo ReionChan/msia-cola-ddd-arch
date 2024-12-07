@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.reionchan.core.converter.MQMessageEntityConvertor;
 import io.github.reionchan.core.database.dataobject.MQMessageDO;
 import io.github.reionchan.core.database.mapper.MQMessageMapper;
-import io.github.reionchan.mq.model.entity.MQMessage;
-import io.github.reionchan.mq.repository.IMQRepository;
+import io.github.reionchan.core.model.entity.MQMessage;
+import io.github.reionchan.core.repository.IMQRepository;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package io.github.reionchan.mq.model.entity;
+package io.github.reionchan.core.model.entity;
 
 import lombok.*;
 

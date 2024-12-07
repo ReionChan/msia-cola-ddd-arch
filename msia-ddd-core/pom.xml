@@ -32,7 +32,7 @@
         </dependency>
         <dependency>
             <groupId>io.github.reionchan</groupId>
-            <artifactId>msia-mq-rabbitmq-spring-boot-starter</artifactId>
+            <artifactId>msia-stream-rabbitmq-spring-cloud-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.reionchan</groupId>

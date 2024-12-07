@@ -1,12 +1,12 @@
-package io.github.reionchan.mq.callback;
+package io.github.reionchan.core.mq.callback;
 
 import cn.hutool.core.thread.ExecutorBuilder;
 import cn.hutool.core.thread.RejectPolicy;
 import cn.hutool.core.thread.ThreadFactoryBuilder;
-import io.github.reionchan.mq.consts.MessageStatus;
+import io.github.reionchan.core.consts.MessageStatus;
+import io.github.reionchan.core.model.entity.MQMessage;
+import io.github.reionchan.core.repository.IMQRepository;
 import io.github.reionchan.mq.consts.RabbitMQConst;
-import io.github.reionchan.mq.model.entity.MQMessage;
-import io.github.reionchan.mq.repository.IMQRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.ReturnedMessage;
 import org.springframework.amqp.rabbit.connection.CorrelationData;

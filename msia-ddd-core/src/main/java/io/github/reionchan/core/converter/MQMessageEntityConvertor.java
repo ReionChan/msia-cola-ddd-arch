@@ -2,7 +2,7 @@ package io.github.reionchan.core.converter;
 
 import io.github.reionchan.commons.bean.EntityConvertor;
 import io.github.reionchan.core.database.dataobject.MQMessageDO;
-import io.github.reionchan.mq.model.entity.MQMessage;
+import io.github.reionchan.core.model.entity.MQMessage;
 import org.mapstruct.*;
 
 import java.util.Date;

@@ -2,8 +2,8 @@ package io.github.reionchan.users.convertor;
 
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSON;
-import io.github.reionchan.mq.consts.MessageStatus;
-import io.github.reionchan.mq.model.entity.MQMessage;
+import io.github.reionchan.core.consts.MessageStatus;
+import io.github.reionchan.core.model.entity.MQMessage;
 import io.github.reionchan.users.assembler.UserAssembler;
 import io.github.reionchan.users.dto.UserDTO;
 import io.github.reionchan.users.model.entity.User;

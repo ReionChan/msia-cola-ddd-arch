@@ -16,7 +16,7 @@ import static io.github.reionchan.users.consts.RabbitMQConst.*;
 public class UserMQConfig {
 
     @Bean
-    public DirectExchange orderDirectExchange() {
+    public DirectExchange userDirectExchange() {
         return new DirectExchange(USER_REGISTER_EXCHANGE);
     }
 
@@ -26,7 +26,7 @@ public class UserMQConfig {
     }
 
     @Bean
-    public Queue orderQueue() {
+    public Queue userQueue() {
         return QueueBuilder.durable(USER_REGISTER_QUEUE).deadLetterExchange(USER_REGISTER_DLX).deadLetterRoutingKey(USER_REGISTER_DLX_ROUTING_KEY).build();
     }
 
@@ -36,8 +36,8 @@ public class UserMQConfig {
     }
 
     @Bean
-    public Binding orderBinding() {
-        return BindingBuilder.bind(orderQueue()).to(orderDirectExchange()).with(USER_REGISTER_ROUTING_KEY);
+    public Binding userBinding() {
+        return BindingBuilder.bind(userQueue()).to(userDirectExchange()).with(USER_REGISTER_ROUTING_KEY);
     }
 
     @Bean

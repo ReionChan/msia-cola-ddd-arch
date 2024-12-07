@@ -1,7 +1,7 @@
 package io.github.reionchan.orders.extentionpoint;
 
 import com.alibaba.cola.extension.ExtensionPointI;
-import io.github.reionchan.mq.model.entity.MQMessage;
+import io.github.reionchan.core.model.entity.MQMessage;
 
 /**
  * 用户注册扩展点

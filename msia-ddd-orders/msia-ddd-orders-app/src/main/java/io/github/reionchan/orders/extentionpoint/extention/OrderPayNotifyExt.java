@@ -2,8 +2,8 @@ package io.github.reionchan.orders.extentionpoint.extention;
 
 import com.alibaba.cola.extension.Extension;
 import com.alibaba.fastjson.JSON;
+import io.github.reionchan.core.model.entity.MQMessage;
 import io.github.reionchan.core.mq.MQManager;
-import io.github.reionchan.mq.model.entity.MQMessage;
 import io.github.reionchan.orders.extentionpoint.OrderPayExtPt;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
