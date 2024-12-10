@@ -5,6 +5,7 @@ import com.alibaba.cola.extension.Extension;
 import com.alibaba.fastjson.JSON;
 import io.github.reionchan.core.model.entity.MQMessage;
 import io.github.reionchan.core.mq.MQManager;
+import io.github.reionchan.users.dto.UserDTO;
 import io.github.reionchan.users.dto.command.UserAddCmd;
 import io.github.reionchan.users.extentionpoint.UserRegisterExtPt;
 import io.github.reionchan.users.repository.IRoleRepository;
@@ -14,8 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 
 import static io.github.reionchan.commons.validation.CommonUtil.isNotEmpty;
-import static io.github.reionchan.users.consts.RabbitMQConst.USER_REGISTER_EXCHANGE;
-import static io.github.reionchan.users.consts.RabbitMQConst.USER_REGISTER_ROUTING_KEY;
+import static io.github.reionchan.users.consts.RabbitMQConst.*;
 import static io.github.reionchan.users.consts.UsersBizScenarioCst.USER_BIZ_ID;
 import static io.github.reionchan.users.consts.UsersBizScenarioCst.USER_REGISTER_USE_CASE;
 
@@ -49,6 +49,6 @@ public class UserRegisterExt implements UserRegisterExtPt {
     @Override
     public void notify(MQMessage message) {
         log.info(JSON.toJSONString(message));
-        mqManager.sendMessage(USER_REGISTER_EXCHANGE, USER_REGISTER_ROUTING_KEY, message, new CorrelationData(message.getMessageId()));
+        mqManager.sendMessage(message.getToExchange(), message.getRoutingKey(), message, UserDTO.class, new CorrelationData(message.getMessageId()));
     }
 }

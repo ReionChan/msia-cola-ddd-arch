@@ -11,8 +11,7 @@ import org.springframework.amqp.rabbit.connection.CorrelationData;
 
 import static io.github.reionchan.orders.consts.OrdersBizScenarioCst.ORDERS_BIZ_ID;
 import static io.github.reionchan.orders.consts.OrdersBizScenarioCst.ORDERS_PAY_USE_CASE;
-import static io.github.reionchan.orders.consts.RabbitMQConst.ORDER_PAY_EXCHANGE;
-import static io.github.reionchan.orders.consts.RabbitMQConst.ORDER_PAY_ROUTING_KEY;
+import static io.github.reionchan.orders.consts.RabbitMQConst.ORDER_PAY_DESTINATION;
 
 /**
  * @author Reion
@@ -28,6 +27,6 @@ public class OrderPayNotifyExt implements OrderPayExtPt {
     @Override
     public void notify(MQMessage message) {
         log.info(JSON.toJSONString(message));
-        mqManager.sendMessage(ORDER_PAY_EXCHANGE, ORDER_PAY_ROUTING_KEY, message, new CorrelationData(message.getMessageId()));
+        mqManager.sendMessage(message.getToExchange(), message.getRoutingKey(), message, String.class, new CorrelationData(message.getMessageId()));
     }
 }

@@ -12,4 +12,6 @@ public interface RabbitMQConst {
     String STOCK_SUB_DLX = "stock.sub.dlx";
     String STOCK_SUB_DLX_ROUTING_KEY = "stock.sub.dlx.routing.key";
     String STOCK_SUB_DLQ = STOCK_SUB_QUEUE + ".dlq";
+    // SpringCloud 模式
+    String STOCK_SUB_DESTINATION = "stockSub";
 }

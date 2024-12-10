@@ -22,7 +22,7 @@ services:
 
   # RabbitMQ 服务
   rabbitmq:
-    image: rabbitmq:3.13.4-management
+    image: rabbitmq:3.10.2-management
     container_name: rabbitmq
     privileged: true
     restart: always

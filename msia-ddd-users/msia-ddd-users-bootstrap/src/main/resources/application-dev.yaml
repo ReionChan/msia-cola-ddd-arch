@@ -15,17 +15,6 @@ spring:
     import:
       - classpath:commons-dev.yaml
 
-  rabbitmq:
-    virtual-host: "/"
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
-    # 确认消息已发送到交换机
-    publisher-confirm-type: correlated
-    # 确认消息已发送到队列
-    publisher-returns: true
-
   datasource:
     # 数据库驱动
     driver-class-name: com.mysql.jdbc.Driver
@@ -37,3 +26,45 @@ spring:
     password: ${MYSQL_PASS:root}
     # 数据库连接池
     type: com.zaxxer.hikari.HikariDataSource
+
+  rabbitmq:
+    virtual-host: "/"
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    # 确认消息已发送到交换机
+    publisher-confirm-type: correlated
+    # 确认消息已发送到队列
+    publisher-returns: true
+
+  cloud:
+    function:
+      definition: userRegisterAck
+
+    stream:
+      function:
+        bindings:
+          userRegisterAck-in-0: userRegisterAckIn
+      bindings:
+        # 用户注册消息推送
+        userRegister:
+          binder: rabbit
+          destination: userRegister
+          producer:
+            error-channel-enabled: true
+            required-groups:
+              - userRegGrp
+      rabbit:
+        bindings:
+          userRegister:
+            producer:
+              exchange-type: direct
+              binding-routing-key: userRegister
+              confirm-ack-channel: userRegisterAckIn
+              auto-bind-dlq: true
+              alternate-exchange:
+                type: fanout
+                name: userRegister.alt
+                binding:
+                  queue: userRegister.alt.queue

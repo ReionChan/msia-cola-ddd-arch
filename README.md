@@ -31,6 +31,8 @@
 * Nacos
   * 在 Nacos 网页控制台的配置管理页面，选择导入 `doc/nacos` 下的服务配置
 * RabbitMQ
+  * 在 RabbitMQ 网页控制台的 Overview 页签导入 `doc/rabbitmq` 下的定义配置
+
 
 ### 服务启动
 

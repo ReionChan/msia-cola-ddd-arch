@@ -12,8 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 import java.util.Set;
 
-import static io.github.reionchan.orders.consts.RabbitMQConst.ORDER_PAY_EXCHANGE;
-import static io.github.reionchan.orders.consts.RabbitMQConst.ORDER_PAY_ROUTING_KEY;
+import static io.github.reionchan.orders.consts.RabbitMQConst.*;
 
 /**
  * @author Reion
@@ -30,9 +29,9 @@ public class Order2MessageConvertor {
             return MQMessage.builder()
                     .messageId(IdUtil.simpleUUID())
                     .content(objectMapper.writeValueAsString(pair))
-                    .toExchange(ORDER_PAY_EXCHANGE)
-                    .routingKey(ORDER_PAY_ROUTING_KEY)
-                    .classType(pair.getClass().getName())
+                    .toExchange(ORDER_PAY_DESTINATION)
+                    .routingKey(ORDER_PAY_DESTINATION)
+                    .classType(String.class.getName())
                     .messageStatus(MessageStatus.NEW.getValue())
                     .build();
         } catch(Exception e) {

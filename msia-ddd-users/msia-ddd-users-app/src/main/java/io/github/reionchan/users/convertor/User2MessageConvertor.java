@@ -12,8 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-import static io.github.reionchan.users.consts.RabbitMQConst.USER_REGISTER_EXCHANGE;
-import static io.github.reionchan.users.consts.RabbitMQConst.USER_REGISTER_ROUTING_KEY;
+import static io.github.reionchan.users.consts.RabbitMQConst.*;
 
 /**
  * @author Reion
@@ -27,10 +26,10 @@ public class User2MessageConvertor {
 
     public MQMessage user2Message(User user) {
         return MQMessage.builder()
-                .messageId(IdUtil.simpleUUID())
+                .messageId(IdUtil.randomUUID())
                 .content(JSON.toJSONString(userAssembler.toDTO(user)))
-                .toExchange(USER_REGISTER_EXCHANGE)
-                .routingKey(USER_REGISTER_ROUTING_KEY)
+                .toExchange(USER_REGISTER_DESTINATION)
+                .routingKey(USER_REGISTER_DESTINATION)
                 .classType(UserDTO.class.getName())
                 .messageStatus(MessageStatus.NEW.getValue())
                 .createTime(new Date())

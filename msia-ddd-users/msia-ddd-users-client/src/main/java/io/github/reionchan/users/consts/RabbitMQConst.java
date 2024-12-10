@@ -12,4 +12,8 @@ public interface RabbitMQConst {
     String USER_REGISTER_DLX = "user.register.dlx";
     String USER_REGISTER_DLX_ROUTING_KEY = "user.register.dlx.routing.key";
     String USER_REGISTER_DLQ = USER_REGISTER_QUEUE + ".dlq";
+    // SpringCloud Stream 模式
+    String USER_REGISTER_DESTINATION = "userRegister";
+    String USER_REGISTER_RK = "#";
+
 }

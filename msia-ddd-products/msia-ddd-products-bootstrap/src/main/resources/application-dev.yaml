@@ -15,26 +15,6 @@ spring:
     import:
       - classpath:commons-dev.yaml
 
-  rabbitmq:
-    virtual-host: "/"
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
-    # 确认消息已发送到交换机
-    publisher-confirm-type: correlated
-    # 确认消息已发送到队列
-    publisher-returns: true
-    cache:
-      channel:
-        size: 100
-    listener:
-      simple:
-        acknowledge-mode: manual
-        prefetch: 250
-        concurrency: 1
-        max-concurrency: 3
-
   datasource:
     # 数据库驱动
     driver-class-name: com.mysql.jdbc.Driver
@@ -46,3 +26,70 @@ spring:
     password: ${MYSQL_PASS:root}
     # 数据库连接池
     type: com.zaxxer.hikari.HikariDataSource
+
+  rabbitmq:
+    virtual-host: "/"
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    # 确认消息已发送到交换机
+    publisher-confirm-type: correlated
+    # 确认消息已发送到队列
+    publisher-returns: true
+
+  cloud:
+    function:
+      definition: stockSubAck;orderPayConsumer
+    stream:
+      function:
+        bindings:
+          stockSubAck-in-0: stockSubIn
+          orderPayConsumer-in-0: orderPay
+      bindings:
+        # 库存扣减消息推送
+        stockSub:
+          binder: rabbit
+          destination: stockSub
+          producer:
+            error-channel-enabled: true
+            required-groups:
+              - stockSubGrp
+        # 订单支付消息消费
+        orderPay:
+          group: orderPayGrp
+      rabbit:
+        bindings:
+          stockSub:
+            producer:
+              exchange-type: direct
+              bindingRoutingKey: stockSub
+              confirm-ack-channel: stockSubIn
+              auto-bind-dlq: true
+              # ALT EXCHANGE，发送至交换机的消息无法路由到消费队列时，转存到补偿交换机
+              # 开启后除补偿交换机故障，否则不会触发发送端消息回退
+              alternate-exchange:
+                type: fanout
+                name: stockSub.alt
+                binding:
+                  queue: stockSub.alt.queue
+            consumer:
+              exchange-type: direct
+              acknowledge-mode: MANUAL
+              auto-bind-dlq: true
+          orderPay:
+            producer:
+              exchange-type: direct
+              bindingRoutingKey: orderPay
+              auto-bind-dlq: true
+              # ALT EXCHANGE，发送至交换机的消息无法路由到消费队列时，转存到补偿交换机
+              # 开启后除补偿交换机故障，否则不会触发发送端消息回退
+              alternate-exchange:
+                type: fanout
+                name: orderPay.alt
+                binding:
+                  queue: orderPay.alt.queue
+            consumer:
+              exchange-type: direct
+              acknowledge-mode: MANUAL
+              auto-bind-dlq: true

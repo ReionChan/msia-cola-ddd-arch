@@ -6,20 +6,6 @@ spring:
   application:
     name: msia-orders
 
-  rabbitmq:
-    virtual-host: "/"
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
-    # 确认消息已发送到交换机
-    publisher-confirm-type: correlated
-    # 确认消息已发送到队列
-    publisher-returns: true
-    cache:
-      channel:
-        size: 100
-
   # 开发环境配置
   config:
     activate:
@@ -41,6 +27,46 @@ spring:
     # 数据库连接池
     type: com.zaxxer.hikari.HikariDataSource
 
-logging:
-  level:
-    io.seata: INFO
+  rabbitmq:
+    virtual-host: "/"
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    # 确认消息已发送到交换机
+    publisher-confirm-type: correlated
+    # 确认消息已发送到队列
+    publisher-returns: true
+
+  cloud:
+    function:
+      definition: orderPayAck
+
+    stream:
+      function:
+        bindings:
+          orderPayAck-in-0: orderPayIn
+      bindings:
+        # 订单支付消息推送
+        orderPay:
+          binder: rabbit
+          destination: orderPay
+          producer:
+            error-channel-enabled: true
+            required-groups:
+              - orderPayGrp
+      rabbit:
+        bindings:
+          orderPay:
+            producer:
+              exchange-type: direct
+              bindingRoutingKey: orderPay
+              confirm-ack-channel: orderPayIn
+              auto-bind-dlq: true
+              # ALT EXCHANGE，发送至交换机的消息无法路由到消费队列时，转存到补偿交换机
+              # 开启后除补偿交换机故障，否则不会触发发送端消息回退
+              alternate-exchange:
+                type: fanout
+                name: orderPay.alt
+                binding:
+                  queue: orderPay.alt.queue

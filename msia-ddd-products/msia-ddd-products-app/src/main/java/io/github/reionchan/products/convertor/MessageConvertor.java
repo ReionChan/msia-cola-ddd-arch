@@ -13,10 +13,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.reionchan.orders.consts.RabbitMQConst.ORDER_PAY_EXCHANGE;
-import static io.github.reionchan.orders.consts.RabbitMQConst.ORDER_PAY_ROUTING_KEY;
-import static io.github.reionchan.products.consts.RabbitMQConst.STOCK_SUB_EXCHANGE;
-import static io.github.reionchan.products.consts.RabbitMQConst.STOCK_SUB_ROUTING_KEY;
+import static io.github.reionchan.orders.consts.RabbitMQConst.*;
+import static io.github.reionchan.products.consts.RabbitMQConst.*;
 
 /**
  * @author Reion
@@ -33,8 +31,8 @@ public class MessageConvertor {
             return MQMessage.builder()
                     .messageId(msgId)
                     .content(msg)
-                    .toExchange(ORDER_PAY_EXCHANGE)
-                    .routingKey(ORDER_PAY_ROUTING_KEY)
+                    .toExchange(ORDER_PAY_DESTINATION)
+                    .routingKey(ORDER_PAY_DESTINATION)
                     .classType(Map.class.getName())
                     .messageStatus(MessageStatus.SENT_ERROR.getValue())
                     .remark(objectMapper.writeValueAsString(outOfStocks))
@@ -49,8 +47,8 @@ public class MessageConvertor {
         return MQMessage.builder()
                 .messageId(IdUtil.simpleUUID())
                 .content(String.valueOf(orderId))
-                .toExchange(STOCK_SUB_EXCHANGE)
-                .routingKey(STOCK_SUB_ROUTING_KEY)
+                .toExchange(STOCK_SUB_DESTINATION)
+                .routingKey(STOCK_SUB_DESTINATION)
                 .classType(Map.class.getName())
                 .messageStatus(MessageStatus.NEW.getValue())
                 .createTime(new Date())

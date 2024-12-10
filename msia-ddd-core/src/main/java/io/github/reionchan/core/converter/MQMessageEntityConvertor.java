@@ -19,16 +19,17 @@ import static io.github.reionchan.core.util.CommonUtil.isNotEmpty;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface MQMessageEntityConvertor extends EntityConvertor<MQMessage, MQMessageDO> {
 
-//    @AfterMapping
-//    default void updateDOFromEntity(MQMessage entity, @MappingTarget MQMessageDO dataObject) {
-//        if (isNotEmpty(entity.getMessageId())) {
-//            if(isEmpty(dataObject.getCreateTime())) {
-//                dataObject.setCreateTime(new Date());
-//            }
-//            dataObject.setUpdateTime(new Date());
-//        } else {
-//            dataObject.setCreateTime(new Date());
-//            dataObject.setUpdateTime(dataObject.getCreateTime());
-//        }
-//    }
+    @AfterMapping
+    default void updateDOFromEntity(MQMessage entity, @MappingTarget MQMessageDO dataObject) {
+        dataObject.setMessageId(entity.getMessageId().replaceAll("-", ""));
+        if (isNotEmpty(entity.getMessageId())) {
+            if(isEmpty(dataObject.getCreateTime())) {
+                dataObject.setCreateTime(new Date());
+            }
+            dataObject.setUpdateTime(new Date());
+        } else {
+            dataObject.setCreateTime(new Date());
+            dataObject.setUpdateTime(dataObject.getCreateTime());
+        }
+    }
 }

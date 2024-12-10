@@ -18,8 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static io.github.reionchan.products.consts.RabbitMQConst.STOCK_SUB_EXCHANGE;
-import static io.github.reionchan.products.consts.RabbitMQConst.STOCK_SUB_ROUTING_KEY;
+import static io.github.reionchan.products.consts.RabbitMQConst.STOCK_SUB_DESTINATION;
 
 /**
  * @author Reion
@@ -46,7 +45,7 @@ public class StockSubCmdExe {
             try {
                 MQMessage mqMessage = messageConvertor.subStockSuccess2Message(orderId);
                 Assert.isTrue(mqManager.save(mqMessage), "库存扣减消息保存异常");
-                mqManager.sendMessage(STOCK_SUB_EXCHANGE, STOCK_SUB_ROUTING_KEY, mqMessage, new CorrelationData(mqMessage.getMessageId()));
+                mqManager.sendMessage(mqMessage.getToExchange(), mqMessage.getRoutingKey(), mqMessage, String.class, new CorrelationData(mqMessage.getMessageId()));
             } catch (Exception e) {
                 throw new BizException("库存扣减发送消息异常", e);
             }

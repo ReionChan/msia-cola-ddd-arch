@@ -20,6 +20,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 import static cn.hutool.core.util.ObjectUtil.isEmpty;
 import static cn.hutool.core.util.ObjectUtil.isNotEmpty;
+import static org.springframework.amqp.rabbit.connection.PublisherCallbackChannel.RETURNED_MESSAGE_CORRELATION_KEY;
 
 
 /**
@@ -48,7 +49,7 @@ public class SimpleMQCallback implements RabbitTemplate.ConfirmCallback, RabbitT
         log.info("correlationData: {} - ack: {}", correlationData.getId(), ack);
         MQMessage[] holder = new MQMessage[1];
         if (isEmpty(holder[0])) {
-            holder[0] = mqRepository.getById(correlationData.getId());
+            holder[0] = mqRepository.getById(correlationData.getId().replaceAll("-", ""));
         }
         Assert.isTrue(isNotEmpty(holder[0]), correlationData.getId() + " 未知的消息");
         if (!ack) {
@@ -68,10 +69,10 @@ public class SimpleMQCallback implements RabbitTemplate.ConfirmCallback, RabbitT
     @Override
     public void returnedMessage(ReturnedMessage returned) {
         log.info("returnedMessage: {}", returned);
-        String msgId = returned.getMessage().getMessageProperties().getHeader(RabbitMQConst.HEADER_MESSAGE_CORRELATION);
+        String msgId = returned.getMessage().getMessageProperties().getHeader(RETURNED_MESSAGE_CORRELATION_KEY);
         MQMessage[] holder = new MQMessage[1];
         if (isEmpty(holder[0])) {
-            holder[0] = mqRepository.getById(msgId);
+            holder[0] = mqRepository.getById(msgId.replaceAll("-", ""));
         }
         Assert.isTrue(isNotEmpty(holder[0]), msgId + " 未知的消息");
         holder[0].setMessageStatus(MessageStatus.SENT_ERROR.getValue());

@@ -15,22 +15,6 @@ spring:
     import:
       - classpath:commons-dev.yaml
 
-  rabbitmq:
-    virtual-host: "/"
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
-    cache:
-      channel:
-        size: 100
-    listener:
-      simple:
-        acknowledge-mode: manual
-        prefetch: 250
-        concurrency: 1
-        max-concurrency: 3
-
   datasource:
     # 数据库驱动
     driver-class-name: com.mysql.jdbc.Driver
@@ -42,3 +26,59 @@ spring:
     password: ${MYSQL_PASS:root}
     # 数据库连接池
     type: com.zaxxer.hikari.HikariDataSource
+
+  rabbitmq:
+    virtual-host: "/"
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+  cloud:
+    function:
+      definition: userRegisterConsumer;stockSubConsumer
+
+    stream:
+      function:
+        bindings:
+          userRegisterConsumer-in-0: userRegister
+          stockSubConsumer-in-0: stockSub
+      bindings:
+        # 用户注册消息消费
+        userRegister:
+          group: userRegGrp
+        # 库存扣减消息消费
+        stockSub:
+          group: stockSubGrp
+      rabbit:
+        bindings:
+          userRegister:
+            producer:
+              exchange-type: direct
+              binding-routing-key: userRegister
+              auto-bind-dlq: true
+              alternate-exchange:
+                type: fanout
+                name: userRegister.alt
+                binding:
+                  queue: userRegister.alt.queue
+            consumer:
+              exchange-type: direct
+              acknowledge-mode: MANUAL
+              auto-bind-dlq: true
+          stockSub:
+            producer:
+              exchange-type: direct
+              bindingRoutingKey: stockSub
+              auto-bind-dlq: true
+              # ALT EXCHANGE，发送至交换机的消息无法路由到消费队列时，转存到补偿交换机
+              # 开启后除补偿交换机故障，否则不会触发发送端消息回退
+              alternate-exchange:
+                type: fanout
+                name: stockSub.alt
+                binding:
+                  queue: stockSub.alt.queue
+            consumer:
+              exchange-type: direct
+              acknowledge-mode: MANUAL
+              auto-bind-dlq: true

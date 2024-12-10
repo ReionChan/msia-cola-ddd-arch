@@ -1,11 +1,14 @@
 package io.github.reionchan.users.config;
 
+import io.github.reionchan.core.mq.MQManager;
+import io.github.reionchan.users.dto.UserDTO;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.Message;
 
-import static io.github.reionchan.users.consts.RabbitMQConst.*;
+import java.util.function.Consumer;
 
 /**
  * @author Reion
@@ -15,33 +18,13 @@ import static io.github.reionchan.users.consts.RabbitMQConst.*;
 @Configuration
 public class UserMQConfig {
 
-    @Bean
-    public DirectExchange userDirectExchange() {
-        return new DirectExchange(USER_REGISTER_EXCHANGE);
-    }
+    @Resource
+    private MQManager mqManager;
 
     @Bean
-    public DirectExchange directDLX() {
-        return new DirectExchange(USER_REGISTER_DLX);
-    }
-
-    @Bean
-    public Queue userQueue() {
-        return QueueBuilder.durable(USER_REGISTER_QUEUE).deadLetterExchange(USER_REGISTER_DLX).deadLetterRoutingKey(USER_REGISTER_DLX_ROUTING_KEY).build();
-    }
-
-    @Bean
-    public Queue dlq() {
-        return new Queue(USER_REGISTER_DLQ);
-    }
-
-    @Bean
-    public Binding userBinding() {
-        return BindingBuilder.bind(userQueue()).to(userDirectExchange()).with(USER_REGISTER_ROUTING_KEY);
-    }
-
-    @Bean
-    public Binding dlqBinding() {
-        return BindingBuilder.bind(dlq()).to(directDLX()).with(USER_REGISTER_DLX_ROUTING_KEY);
+    public Consumer<Message<UserDTO>> userRegisterAck() {
+        return msg -> {
+            mqManager.ackMessage(msg);
+        };
     }
 }
